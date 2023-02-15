@@ -182,6 +182,13 @@ public class UnitTest {
 		}
 		assertEquals("No todo with the id " + id + " exists", errorMsg);
 		assertNull(tmp);
+		
+		try {  
+			TodoController.deleteTodoByID(id);
+		} catch(IllegalArgumentException e) {
+			errorMsg = e.getMessage();
+		}
+		assertEquals("No todo with the id " + id + " exists", errorMsg);
 	}
 
 	@Test
