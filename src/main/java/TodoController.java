@@ -1,6 +1,12 @@
+package main.java;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import main.java.Categories;
+import main.java.Project;
+import main.java.Todo;
 
 public class TodoController {
 
@@ -8,13 +14,17 @@ public class TodoController {
 	static ArrayList<Categories> categories = new ArrayList<>();
 	static ArrayList<Project> projects = new ArrayList<>();
 
-	public static Todo createTodoByTitle(String title) {
+	public static Todo createTodoByTitle(String title, String description) {
+		if(title == "" || title == null) {
+			throw new IllegalArgumentException("Title is required");
+		}
 		Todo todo = new Todo(title);
+		todo.setDescription(description);
 		todos.add(todo);
 		return todo;
 	}
 
-	public static Categories createCategoryByTitle(String title) {
+	public static Categories createCategoryByTitle(String title) { 
 		Categories c = new Categories(title);
 		categories.add(c);
 		return c;
@@ -52,7 +62,7 @@ public class TodoController {
 			todo.setDoneStatus(doneStatus);
 			return todo; 
 		} else {
-			throw new IllegalArgumentException("No todo with the id " + id + " exists");
+			throw new IllegalArgumentException("No todo with the input id was found");
 		}
 	}
 

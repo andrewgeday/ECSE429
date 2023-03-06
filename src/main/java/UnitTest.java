@@ -1,3 +1,5 @@
+package main.java;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -11,6 +13,8 @@ import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import main.java.controller.TodoController;
 
 public class UnitTest {
 
@@ -26,7 +30,7 @@ public class UnitTest {
 
 	@BeforeEach
 	public void setUp() {
-		todo = TodoController.createTodoByTitle("Test");
+		todo = TodoController.createTodoByTitle("Test", "");
 		p = TodoController.createProjectByTitle("Test");
 		c = TodoController.createCategoryByTitle("Test");
 
@@ -60,7 +64,7 @@ public class UnitTest {
 		String title = "Test";
 		Todo tmp = new Todo(title);
 		Todo t = null;
-		t = TodoController.createTodoByTitle(title);
+		t = TodoController.createTodoByTitle(title, "");
 		assertNotNull(t);
 		assertEquals(tmp.getTitle(), t.getTitle());
 	}
