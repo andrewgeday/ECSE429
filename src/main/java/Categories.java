@@ -1,31 +1,28 @@
 package main.java;
 
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Categories {
-	private UUID id;
+
+	private static AtomicInteger ID_GENERATOR = new AtomicInteger(1000);
+
+	private int id;
 	private String title;
 	private String description;
 	private Todo todo;
 
-	public Categories(String title, UUID id, String description, Todo todo) {
-		this.title = title;
-		this.id = id;
-		this.description = description;
-		this.todo = todo;
-	}
-
 	public Categories(String title) {
 		this.title = title;
-		this.id = UUID.randomUUID();
+		this.id = ID_GENERATOR.getAndIncrement();
 		this.description = "";
 	}
 
-	public UUID getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(UUID id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

@@ -1,38 +1,40 @@
 package main.java;
 
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Project {
 
-	public Project(UUID id, String title, boolean completed, boolean active, String description) {
-		super();
-		this.id = id;
-		this.title = title;
-		this.completed = completed;
-		this.active = active;
-		this.description = description;
-	}
+	private static AtomicInteger ID_GENERATOR = new AtomicInteger(1000);
+
+	private int id;
+	private String title;
+	private boolean completed;
+	private boolean active;
+	private String description;
+
+//	public Project(int id, String title, boolean completed, boolean active, String description) {
+//		this.id = ID_GENERATOR.getAndIncrement();
+//		this.title = title;
+//		this.completed = completed;
+//		this.active = active;
+//		this.description = description;
+//	}
 
 	public Project(String title) {
 		super();
-		this.id = UUID.randomUUID(); 
+		this.id = ID_GENERATOR.getAndIncrement();
 		this.title = title;
 		this.completed = false;
 		this.active = false;
 		this.description = "";
 	}
 
-	private UUID id;
-	private String title;
-	private boolean completed;
-	private boolean active;
-	private String description;
-
-	public UUID getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(UUID id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

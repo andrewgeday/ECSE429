@@ -10,19 +10,8 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
-		<buildCommand>
-			<name>cucumber.eclipse.builder.stepdefinition</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
-		<buildCommand>
-			<name>cucumber.eclipse.builder.gherkin</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
 	</buildSpec>
 	<natures>
-		<nature>cucumber.eclipse.nature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
 	<filteredResources>

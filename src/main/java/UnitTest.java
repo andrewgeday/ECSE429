@@ -5,16 +5,14 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import main.java.controller.TodoController;
 
 public class UnitTest {
 
@@ -40,13 +38,13 @@ public class UnitTest {
 		todo.setTaskof(p);
 		todo.setDescription("a description");
 		todo.setDoneStatus(false);
-		todo.setId(UUID.randomUUID());
+		todo.setId((int) Math.random());
 
 		// false todo
 		todo1 = new Todo("Fake");
 		p1 = new Project("Fake");
 		c1 = new Categories("Fake");
-		todo1.setId(UUID.randomUUID());
+		todo.setId((int) Math.random());
 		todo1.setDescription("fake");
 		todo1.setDoneStatus(false);
 		todo1.setCategories(c1);
@@ -84,7 +82,7 @@ public class UnitTest {
 
 	@Test
 	public void testUpdateTodo() {
-		UUID id = UUID.randomUUID();
+		int id = (int) Math.random();
 		String title = "Test";
 		String description = "test";
 		boolean doneStatus = true;
@@ -101,7 +99,7 @@ public class UnitTest {
 
 	@Test
 	public void testGetCategoryByID() {
-		UUID id = UUID.randomUUID();
+		int id = (int) Math.random();
 		c.setId(id);
 		Categories cat = TodoController.getCategoryByID(id);
 		assertNotNull(cat);
@@ -110,8 +108,8 @@ public class UnitTest {
 
 	@Test
 	public void testGetCategoryByFalseID() {
-		UUID id = UUID.randomUUID();
-		UUID rand_id = UUID.randomUUID();
+		int id = (int) Math.random();
+		int rand_id = (int) Math.random();
 		c.setId(id);
 		Categories cat = null;
 		try {
@@ -125,8 +123,8 @@ public class UnitTest {
 
 	@Test
 	public void testGetCategories() {
-		List<Categories> cats = TodoController.getCategories(todo.getId());
-		assertEquals(todo.getCategories().get(0), cats.get(0));
+		Categories cats = TodoController.getCategories(todo.getId());
+		assertEquals(todo.getCategories(), cats);
 	}
 
 	@Test
@@ -138,7 +136,7 @@ public class UnitTest {
 	@Test
 	public void testGetProjectsByNonExistingTodoID() {
 		List<Project> projs = null;
-		UUID id = todo1.getId();
+		int id = todo1.getId();
 		try {
 			projs = TodoController.getProjects(id);
 		} catch (IllegalArgumentException e) {
@@ -163,7 +161,7 @@ public class UnitTest {
 
 	@Test
 	public void testGetTodoByFalseID() {
-		UUID id = todo1.getId();
+		int id = todo1.getId();
 		Todo tmp = null;
 		try {
 			tmp = TodoController.getTodoByID(id);
@@ -176,7 +174,7 @@ public class UnitTest {
 
 	@Test
 	public void testDeleteTodo() {
-		UUID id = todo.getId();
+		int id = todo.getId();
 		TodoController.deleteTodoByID(id);
 		Todo tmp = null;
 		try {
@@ -208,7 +206,7 @@ public class UnitTest {
 	@Test
 	public void testRemoveCategoryFromTodo() {
 		TodoController.removeCategoryFromTodo(todo.getId(), c.getId());
-		assertFalse(todo.getCategories().contains(c));
+		assertNotEquals(todo.getCategories(), c);
 	}
 
 	@Test
@@ -243,7 +241,7 @@ public class UnitTest {
 
 	@Test
 	public void testUpdateTodoByFalseID() {
-		UUID id = todo1.getId();
+		int id = todo1.getId();
 		String title = "new title";
 		String description = "test";
 		boolean doneStatus = true;
@@ -265,8 +263,8 @@ public class UnitTest {
 
 	@Test
 	public void testAddTaskOfFalseTodoID() {
-		UUID id = todo1.getId();
-		UUID task_id = p.getId();
+		int id = todo1.getId();
+		int task_id = p.getId();
 		Todo tmp = null;
 		try {
 			tmp = TodoController.addTaskof(id, task_id);
@@ -279,8 +277,8 @@ public class UnitTest {
 
 	@Test
 	public void testAddTaskOfFalseProjectID() {
-		UUID id = todo.getId();
-		UUID task_id = p1.getId();
+		int id = todo.getId();
+		int task_id = p1.getId();
 		Todo tmp = null;
 		try {
 			tmp = TodoController.addTaskof(id, task_id);
@@ -294,8 +292,8 @@ public class UnitTest {
 
 	@Test
 	public void testAddTaskOfExistingProjectForTodo() {
-		UUID id = todo.getId();
-		UUID task_id = p.getId();
+		int id = todo.getId();
+		int task_id = p.getId();
 		Todo tmp = null;
 		try {
 			tmp = TodoController.addTaskof(id, task_id);
@@ -349,13 +347,13 @@ public class UnitTest {
 		todo = TodoController.addCategory(todo.getId(), c2.getId());
 		assertNotNull(todo);
 		assertNotNull(todo.getCategories());
-		assertTrue(todo.getCategories().contains(c2));
+		assertEquals(todo.getCategories(), c2);
 	}
 
 	@Test
 	public void testAddCategoryToTodoByFalseTodoID() {
-		UUID id = todo1.getId();
-		UUID category_id = c.getId();
+		int id = todo1.getId();
+		int category_id = c.getId();
 		Todo tmp = null;
 		try {
 			tmp = TodoController.addCategory(id, category_id);
@@ -368,8 +366,8 @@ public class UnitTest {
 
 	@Test
 	public void testAddCategoryToTodoByFalseCategoryID() {
-		UUID id = todo.getId();
-		UUID category_id = c1.getId();
+		int id = todo.getId();
+		int category_id = c1.getId();
 		Todo tmp = null;
 		try {
 			tmp = TodoController.addCategory(id, category_id);
@@ -382,8 +380,8 @@ public class UnitTest {
 
 	@Test
 	public void testAddCategoryToTodoByExistingCategoryForTodo() {
-		UUID id = todo.getId();
-		UUID category_id = c.getId();
+		int id = todo.getId();
+		int category_id = c.getId();
 		Todo tmp = null;
 		try {
 			tmp = TodoController.addCategory(id, category_id);
@@ -425,7 +423,7 @@ public class UnitTest {
 
 	@Test
 	public void testGetCategoriesByFalseTodoID() {
-		ArrayList<Categories> c = null;
+		Categories c = null;
 		try {
 			c = TodoController.getCategories(todo1.getId());
 		} catch (IllegalArgumentException e) {

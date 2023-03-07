@@ -24,6 +24,18 @@ public class TodoController {
 		return todo;
 	}
 
+	public static Todo createTodoByIdAndTitle(String id, String title, String description) {
+		if(title == "" || title == null) {
+			throw new IllegalArgumentException("Title is required");
+		}
+		Todo todo = new Todo(title);
+		int iD = Integer.parseInt(id);
+		todo.setId(iD);
+		todo.setDescription(description);
+		todos.add(todo);
+		return todo;
+	}
+
 	public static Categories createCategoryByTitle(String title) { 
 		Categories c = new Categories(title);
 		categories.add(c);
@@ -42,93 +54,96 @@ public class TodoController {
 				return todo;
 			}
 		}
-		throw new IllegalArgumentException("No todo with the title " + title + " exists");
+		throw new IllegalArgumentException("No todo with the title " + title + " exist");
 	}
 
-	public static Todo getTodoByID(UUID id) {
+	public static Todo getTodoByID(int id) {
 		for (Todo todo : todos) {
 			if (todo.getId() == id) {
 				return todo;
 			}
 		}
-		throw new IllegalArgumentException("No todo with the id " + id + " exists");
+		throw new IllegalArgumentException("No todo with the id " + id + " exist");
 	}
 
-	public static Todo updateTodo(UUID id, String title, String description, Boolean doneStatus) {
+	public static Todo updateTodo(int id, String title, String description, Boolean doneStatus) {
 		Todo todo = getTodoByID(id);
 		if (todo != null) {
 			todo.setTitle(title);
 			todo.setDescription(description);
 			todo.setDoneStatus(doneStatus);
-			return todo; 
+			return todo;
 		} else {
 			throw new IllegalArgumentException("No todo with the input id was found");
 		}
 	}
 
-	public static void deleteTodoByID(UUID id) {
+	public static Todo deleteTodoByID(int id) {
 		Todo todo = getTodoByID(id);
 		if (todo == null) {
-			throw new IllegalArgumentException("No todo with the id " + id + " exists");
+			throw new IllegalArgumentException("No todo with the id " + id + " exist");
 		}
 		todos.remove(todo);
 		if (todos.contains(todo)) {
 			throw new IllegalArgumentException("Error could not delete todo with id " + id);
 		}
+		return null;
 	}
 
-	public static Categories getCategoryByID(UUID id) {
+	public static Categories getCategoryByID(int id) {
 		for (Categories category : categories) {
 			if (category.getId() == id) {
 				return category;
 			}
 		}
-		throw new IllegalArgumentException("No category with the id " + id + " exists");
+		throw new IllegalArgumentException("No category with the id " + id + " exist");
 	}
 
-	public static ArrayList<Categories> getCategories(UUID id) {
+	public static Categories getCategories(int id) {
 		Todo todo = getTodoByID(id);
 		if (todo != null) {
 			return todo.getCategories();
 		}
-		throw new IllegalArgumentException("No todo with the id " + id + " exists");
+		throw new IllegalArgumentException("No todo with the id " + id + " exist");
 	}
 
-	public static List<Project> getProjects(UUID id) {
+	public static List<Project> getProjects(int id) {
 		Todo todo = getTodoByID(id);
 		if (todo != null) {
 			return todo.getTaskof();
 		}
-		throw new IllegalArgumentException("No todo with the id " + id + " exists");
+		throw new IllegalArgumentException("No todo with the id " + id + " exist");
 	} 
 
-	public static Todo addCategory(UUID todo_id, UUID category_id) {
+	public static Todo addCategory(int todo_id, int category_id) {
 		Todo todo = getTodoByID(todo_id);
 		if (todo != null) {
 			Categories category = getCategoryByID(category_id);
 			if (category == null)
-				throw new IllegalArgumentException("No category with the id " + category_id + " exists");
-			ArrayList<Categories> c = todo.getCategories();
-			if(c.contains(category))
-				throw new IllegalArgumentException("The category with id " + category_id + " already exists for todo with id " + todo_id);
+				throw new IllegalArgumentException("No category with the id " + category_id + " exist");
+			Categories c = todo.getCategories();
+			if (c != null) {
+				if(c.equals(category))
+					throw new IllegalArgumentException("The category with id " + category_id + " already exists for todo with id " + todo_id);
+			}
 			todo.setCategories(category);
 			return todo;
 		}
-		throw new IllegalArgumentException("No todo with the id " + todo_id + " exists");
+		throw new IllegalArgumentException("No todo with the id " + todo_id + " exist");
 	}
 
-	public static Todo removeCategoryFromTodo(UUID todo_id, UUID category_id) {
+	public static Todo removeCategoryFromTodo(int todo_id, int category_id) {
 		Todo todo = getTodoByID(todo_id);
 		if (todo == null)
-			throw new IllegalArgumentException("No todo with the id " + todo_id + " exists");
+			throw new IllegalArgumentException("No todo with the id " + todo_id + " exist");
 		Categories category = getCategoryByID(category_id);
 		if (category == null)
-			throw new IllegalArgumentException("No category with id " + category_id + " exists");
+			throw new IllegalArgumentException("No category with id " + category_id + " exist");
 
-		ArrayList<Categories> cat = todo.getCategories();
-		for (Categories c : cat) {
-			if (c.getId() == category_id) {
-				cat.remove(c);
+		Categories cat = todo.getCategories();
+		if (cat != null) {
+			if (cat.getId() == category_id) {
+				todo.setCategories(null);
 				return todo;
 			}
 		}
@@ -137,46 +152,46 @@ public class TodoController {
 
 	}
  
-	public static ArrayList<Project> getTaskof(UUID id) {
+	public static ArrayList<Project> getTaskof(int id) {
 		Todo todo = getTodoByID(id);
 		if (todo != null) {
 			return todo.getTaskof();
 		}
-		throw new IllegalArgumentException("No todo with the id " + id + " exists");
+		throw new IllegalArgumentException("No todo with the id " + id + " exist");
 	}
 
-	public static Todo addTaskof(UUID todo_id, UUID task_id) {
+	public static Todo addTaskof(int todo_id, int task_id) {
 		Todo todo = getTodoByID(todo_id);
 		if (todo != null) {
 			Project p = getProjectByID(task_id);
 			if (p == null) 
-				throw new IllegalArgumentException("No project with the id " + task_id + " exists");
+				throw new IllegalArgumentException("No project with the id " + task_id + " exist");
 			ArrayList<Project> projs = todo.getTaskof();
 			if(projs.contains(p))
 				throw new IllegalArgumentException("The project with id " + task_id + " already exists for todo with id " + todo_id);
 			todo.setTaskof(p);
 			return todo;
 		}
-		throw new IllegalArgumentException("No todo with the id " + todo_id + " exists");
+		throw new IllegalArgumentException("No todo with the id " + todo_id + " exist");
 	}
 
-	public static Project getProjectByID(UUID id) { 
+	public static Project getProjectByID(int id) {
 		for (Project project : projects) {
 			if (project.getId() == id) {
 				return project;
 			}
 		}
-		throw new IllegalArgumentException("No project with the id " + id + " exists");
+		throw new IllegalArgumentException("No project with the id " + id + " exist");
 	}
 
-	public static Todo removeTaskofFromTodo(UUID todo_id, UUID task_id) {
+	public static Todo removeTaskofFromTodo(int todo_id, int task_id) {
 		Todo todo = getTodoByID(todo_id);
 		if (todo == null) {
-			throw new IllegalArgumentException("No todo with the id " + todo_id + " exists");
+			throw new IllegalArgumentException("No todo with the id " + todo_id + " exist");
 		}
 		Project pr = getProjectByID(task_id);
 		if(pr == null) 
-			throw new IllegalArgumentException("No project with the id " + task_id + " exists");
+			throw new IllegalArgumentException("No project with the id " + task_id + " exist");
 		ArrayList<Project> proj = todo.getTaskof();
 		if(! proj.contains(pr))
 		throw new IllegalArgumentException(
