@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/.idea/ECSE429_new.iml" filepath="$PROJECT_DIR$/.idea/ECSE429_new.iml" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/ECSE429.iml" filepath="$PROJECT_DIR$/ECSE429.iml" />
+>>>>>>> 8ed5bda56361cb9851356c9a65e7dbd0bee7633c
     </modules>
   </component>
 </project>
