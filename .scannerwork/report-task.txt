@@ -1,0 +1,6 @@
+projectKey=ECSE429
+serverUrl=http://localhost:9000
+serverVersion=9.9.0.65466
+dashboardUrl=http://localhost:9000/dashboard?id=ECSE429
+ceTaskId=AYdE4S0eNjObdo-2Ll-a
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AYdE4S0eNjObdo-2Ll-a

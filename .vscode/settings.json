@@ -1,0 +1,8 @@
+{
+    "sonarlint.connectedMode.connections.sonarqube": [
+        {
+          "serverUrl": "https://sonar.domain.com",
+          "token": "V2VkIE1..."
+        }
+      ]
+}
